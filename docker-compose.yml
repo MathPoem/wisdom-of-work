@@ -1,0 +1,30 @@
+services:
+  server:
+    container_name: server
+    build:
+      context: ./server
+    environment:
+      - name=value
+    ports:
+      - 8080:8080
+    networks:
+      server-network:
+        ipv4_address: 192.168.1.101
+
+  client:
+    container_name: client
+    build:
+      context: ./client
+    environment:
+      - name=value
+    networks:
+      server-network:
+        ipv4_address: 192.168.1.102
+
+networks:
+  server-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.1.0/24
+
