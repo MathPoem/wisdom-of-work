@@ -15,8 +15,3 @@ type Challenge struct {
 func NewPOWhashcash(difficulty int) POW {
 	return &POWHashcash{difficulty: difficulty}
 }
-
-func NewPOWQuadraticResidue(difficulty int) POW {
-	return &POWQuadraticResidue{difficulty: difficulty}
-}
-

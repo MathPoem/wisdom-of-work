@@ -1,6 +1,7 @@
 package tcp_server
 
 import (
+	"fmt"
 	"net"
 
 	"wisdom-of-work-server/internal/config"
@@ -16,16 +17,16 @@ type TcpServer struct {
 	pow      pow.POW
 }
 
-func NewServer(cfg *config.Config, log *logrus.Logger) *TcpServer {
+func NewServer(cfg *config.Config, log *logrus.Logger) (*TcpServer, error) {
 	tcpServer := &TcpServer{cfg: cfg, log: log}
-	
+
 	if cfg.POWType == "hashcash" {
 		tcpServer.pow = pow.NewPOWhashcash(cfg.Difficulty)
-	} else if cfg.POWType == "quadratic_residue" {
-		tcpServer.pow = pow.NewPOWQuadraticResidue(cfg.Difficulty)
+	} else {
+		return nil, fmt.Errorf("invalid POW type: %s", cfg.POWType)
 	}
 
-	return tcpServer
+	return tcpServer, nil
 }
 
 func (s *TcpServer) Start() {

@@ -22,7 +22,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	server := tcp_server.NewServer(cfg, log)
+	server, err := tcp_server.NewServer(cfg, log)
+	if err != nil {
+		log.WithError(err).Error("Failed to create server")
+		os.Exit(1)
+	}
 	go server.Start()
 
 	quit := make(chan os.Signal, 1)
